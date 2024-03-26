@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class MessageFieldBox extends StatelessWidget {
-  const MessageFieldBox({super.key});
+
+  final ValueChanged<String> onValue;//definicion del metodo
+  const MessageFieldBox({super.key, required this.onValue});
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +25,8 @@ class MessageFieldBox extends StatelessWidget {
           icon: const Icon(Icons.send_outlined),//icono de enviar
           onPressed: () {
             final textValue = textController.value.text;
-            print('button: $textValue');
             textController.clear();//cuando se apreta el icono e enviar se elimina de ahi y como que se envia
+            onValue(textValue);
           },
         )//icono de enviar
       );
@@ -37,7 +39,7 @@ class MessageFieldBox extends StatelessWidget {
       controller: textController,
       decoration: inputDecoration,
       onFieldSubmitted: (value){
-        print('submit value $value');
+        onValue(value);
         textController.clear();//cuando apretemos done se borrara el texto 
         focusNode.requestFocus();//esto hara que no se cierre el teclado cuando se aprete el done
       },

@@ -1,8 +1,11 @@
 
 import 'package:flutter/material.dart';
+import 'package:yes_no_app/domain/entities/message.dart';
 
 class HerMessageBubble extends StatelessWidget {
-  const HerMessageBubble({super.key});
+  const HerMessageBubble({super.key, required this.message});
+
+  final Message message;
 
   @override
   Widget build(BuildContext context) {
@@ -17,15 +20,15 @@ final colors = Theme.of(context).colorScheme;
             color: colors.secondary,//color
             borderRadius: BorderRadius.circular(20)//el borde de la forma
           ),
-          child: const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),//el separado
-            child: Text('Hola Mundo', style: TextStyle( color: Colors.white),),//el texto y el color
+          child:  Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),//el separado
+            child: Text(message.text, style: const TextStyle( color: Colors.white),),//el texto y el color
           ),
         ),
 
         const SizedBox(height: 5,),//la separacion
 
-        _ImageBubble(),//aqui e habla al metodo
+        _ImageBubble(message.imageUrl!),//aqui e habla al metodo
 
         const SizedBox( height: 10,),
       ],
@@ -35,12 +38,16 @@ final colors = Theme.of(context).colorScheme;
 
 class _ImageBubble extends StatelessWidget {
 
+  final String imageUrl;
+
+  const _ImageBubble( this.imageUrl);
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return ClipRRect(
       borderRadius: BorderRadius.circular(20),
-      child: Image.network('https://yesno.wtf/assets/yes/4-c53643ecec77153eefb461e053fb4947.gif',//la imagen del meme
+      child: Image.network(imageUrl,//la imagen del meme
       width: size.width * 0.7,//tamaño
       height: 150,
       fit: BoxFit.cover,
